@@ -26,7 +26,7 @@
                    >
                    </v-img>
                   <PrecioMenorBTC/>
-                  <v-btn dark @click="compra">Compra</v-btn>
+                  <v-btn dark>Compra</v-btn>
 
                 </v-card>
               </v-col>
@@ -58,17 +58,17 @@
                 
 
               <v-progress-circular
-              :value="BTCpercentage"
+              value="20"
               color="yellow darken-2"
               size="300"
               width="12"
               >
               <v-row>
                 <v-col cols="12">
-                {{saldos.MxnBtc}}
+                  <h1 >$3210</h1>
                 </v-col>
                   <v-col cols="12">
-                    <p class="saldoNum"> MXN</p>
+                    <p class="saldoNum">Total MXN</p>
                 </v-col>
               </v-row>
             
@@ -80,20 +80,33 @@
               </v-col>
               <v-col cols="4">
                 <v-list-item>
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      MXN {{saldos.MXN}}
-                    </v-list-item-title>
-                  </v-list-item-content>
+                  <v-list-content>
+                    <v-list-title>
+                      MXN {{}}
+                    </v-list-title>
+                  </v-list-content>
                 </v-list-item>
                 <v-list-item>
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      BTC {{BTC}}
-                    </v-list-item-title>
-                  </v-list-item-content>
+                  <v-list-content>
+                    <v-list-title>
+                      BTC {{}}
+                    </v-list-title>
+                  </v-list-content>
                 </v-list-item>
-                
+                <v-list-item>
+                  <v-list-content>
+                    <v-list-title>
+                      ETH {{ }}
+                    </v-list-title>
+                  </v-list-content>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-content>
+                    <v-list-title>
+                      XRP {{ }}
+                    </v-list-title>
+                  </v-list-content>
+                </v-list-item>
               </v-col>
               
             </v-row>
@@ -101,7 +114,6 @@
             
            
         </v-card>
-          <Movimientos />
           <!-- // card saldo -->
       </v-container>
       </v-tab-item>
@@ -207,7 +219,6 @@ import PrecioMenorETH from '@/components/PreciosETH/PrecioMenorETH.vue'
 
 
 import Ganancia from '@/components/PreciosBTC/GananciaBTC.vue'
-import Movimientos from '@/components/Cartera/MovimientosBTC.vue'
 import Axios from 'axios'
 
 
@@ -217,7 +228,6 @@ import Axios from 'axios'
         PrecioMayorBTC,
         PrecioMayorETH,
         PrecioMenorETH,
-        Movimientos,
 
 
         Ganancia,
@@ -225,21 +235,12 @@ import Axios from 'axios'
     },
     data () {
       return {
-        saldos:{
-          MXN:"",
-        MxnBtc:"",
-        MxnEth:"",
-        MxnXrp:""
-        }
-       ,
-        MXNpercentage:"",
-        BTCpercentage:"60",
-        ETHpercentage:"10",
+        MXN:"",
         BTC:"",
         ETH:"",
-        XRP:""
-
-
+        MXNpercentage:"",
+        BTCpercentage:"",
+        ETHpercentage:""
 
       }
     },
@@ -252,7 +253,7 @@ import Axios from 'axios'
     .get('http://localhost:4000/all/balance')
     .then((response) => {
       console.log()
-      this.saldos.MXN =response.data[2].balance
+      this.saldo = response.data[2].balance
     }
 
     )
@@ -261,37 +262,8 @@ import Axios from 'axios'
      },
   computed: mapState([
     'coins',
-    'coins2',
-
-    
-    
-  ]),
-
-  // computed: {
-  //   obtenBM: function(){
-  //     console.log()
-  //    return this.coins * this.BTC
-  //   },
-  // },
-  
-  methods: {
-    compra(){
-     var newla = this.saldos.MXN - this.coins;
-     var newBtcMxn = this.coins * this.BTC;
-     this.saldos.MXN = newla;
-     this.saldos.MxnBtc = newBtcMxn
-     console.log(this.MXN);
-     console.log(this.coins)
-      this.BTC ++ ;
-      var arr =  [this.saldos.MXN,this.saldos.MxnBtc];
-      console.log(arr[0],'y tambein',arr[1])
- var porcentages = arr.map( function (element) {
-   return element = (element/1000000)*100; 
-})
-   console.log(porcentages[0])
-   this.BTCpercentage= porcentages[0];
-    }
-  }
+    'coins2'
+  ])
   }
 
   
@@ -302,3 +274,5 @@ import Axios from 'axios'
   color: black;
 }
 </style>
+var newPercentage = this.MxnBtc/100*this.totalMXN 
+    this.BTCpercentage = newPercentage

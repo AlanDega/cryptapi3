@@ -26,7 +26,7 @@
             <!-- cantidad en azul -->
             </v-container>
         </v-card>
-      
+       
     </div>
 </template>
 
@@ -36,7 +36,7 @@ import axios from 'axios'
         data() {
             return {
                 state: {
-                    balance:"0"
+                    balance:"0",
             }
             }
         },

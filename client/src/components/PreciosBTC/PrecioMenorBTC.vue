@@ -1,11 +1,12 @@
 <template>
 <v-container>
+   
     <div v-if=" coiner <= coiner2 " >
-        <h1>Bitso</h1>
+        <h2>Bitso</h2>
 {{coiner}}
     </div>
      <div v-if="coiner2 <= coiner ">
-        <h1>Coin</h1>
+        <h2>CoinCompare </h2>
 {{coiner2}}
     </div>
 </v-container>

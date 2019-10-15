@@ -10,7 +10,9 @@ export default new Vuex.Store({
   state: {
     result: 0,
    coins: "",
-   coins2: ""
+   coins2: "",
+   coinsETH: "",
+   coins2ETH: "",
 
   },
   mutations: {
@@ -21,6 +23,14 @@ export default new Vuex.Store({
     },
     SET_COINS2 (state, coins2) {
       state.coins2 = coins2
+    },
+    SET_COINSETH (state, coinsETH) {
+      
+      state.coinsETH = coinsETH
+
+    },
+    SET_COINS2ETH (state, coins2ETH) {
+      state.coins2ETH = coins2ETH
     },
 
   },
@@ -50,6 +60,35 @@ export default new Vuex.Store({
             )
       .then( coins2 => {
       commit ('SET_COINS2', coins2)
+    })
+    },
+
+
+    loadBitsoETH ({ commit }) {
+      axios
+      .get("https://api.bitso.com/v3/order_book/?book=eth_mxn")
+      .then(response => 
+         response.data.payload.bids[0].price
+      )
+      .then( coinsETH => {
+        // if(coins2) {
+        //   console.log(coins2)
+        // }
+        // else{
+        //   console.log('no has state')
+        // }
+      commit ('SET_COINSETH', coinsETH)
+    })
+    },
+
+    loadCoinETH ({ commit }) {
+      axios
+      .get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=ETH,BTC,EOS&tsyms=MXN&api_key=07ef122416564c2ba3d7eb0ea39ede317487f06eae2252802a8d5377b6b29a68')
+      .then(result => 
+          result.data.ETH.MXN
+            )
+      .then( coins2ETH => {
+      commit ('SET_COINS2ETH', coins2ETH)
     })
     },
 
