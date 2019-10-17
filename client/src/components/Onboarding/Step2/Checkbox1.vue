@@ -27,8 +27,28 @@
 </template>
 
 <script>
+import Axios from 'axios'
     export default {
-        
+        data() {
+          return {
+            state:{
+              moneda: "BTC"
+            }
+          }
+        },
+        methods:{
+          seleccionaMoneda1(){
+            Axios
+  .post('http://localhost:4000/create/moneda/5da764987595462ee5790057',this.state)
+ .then((res) => {
+      console.log('envio chido ')
+ })
+  .catch(error => console.log(error))
+     
+          },
+         
+          
+       }
     }
 </script>
 

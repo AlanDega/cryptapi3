@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app >
     <v-app-bar app>
       <v-toolbar-title class="headline text-uppercase">
         <span class="font-weight-light">CRYPTAPI</span>
@@ -16,7 +16,7 @@
       </v-btn>
     </v-app-bar>
 
-    <v-content>
+    <v-content >
       <router-view></router-view>
     </v-content>
   </v-app>
@@ -33,3 +33,9 @@ export default {
   }),
 };
 </script>
+
+<style >
+* {
+  background-color:"blue"
+}
+</style>

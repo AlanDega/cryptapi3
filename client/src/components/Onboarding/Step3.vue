@@ -16,13 +16,7 @@
             v-model="state.balance"
             >
             </v-text-field>
-            <router-link
-    to="/home">
-
-            <v-btn @click="depositar">Aceptar</v-btn>
-            </router-link>
-
-            <h2>Balance actual: {{state.balance}} MXN</h2>
+     
             <!-- cantidad en azul -->
             </v-container>
         </v-card>
@@ -36,7 +30,7 @@ import axios from 'axios'
         data() {
             return {
                 state: {
-                    balance:"0",
+                    saldoTotal:"0",
             }
             }
         },
@@ -44,15 +38,12 @@ import axios from 'axios'
         }
         ,
         methods: {
-            obtenerEstado(){
-                axios
-                .get()//url, callback)
-            },
+            
             depositar(){
                 console.log(this.state);
-                 axios.post('http://localhost:4000/create/cuenta',this.state)
+                 axios.put('http://localhost:4000/cuenta/5da781e58bb9263858303277',this.state)
         .then(res => alert('Cuenta añadida'))
-        .catch(error => console.log(error))
+        .catch(error => console.log(error)) 
             }
                 
             

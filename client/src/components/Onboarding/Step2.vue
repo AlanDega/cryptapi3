@@ -53,13 +53,11 @@
 </template>
 
 <script>
-import Checkbox1 from '@/components/Onboarding/Step2/Checkbox1.vue'
 import Checkbox2 from '@/components/Onboarding/Step2/Checkbox2.vue'
 import Checkbox3 from '@/components/Onboarding/Step2/Checkbox3.vue'
 
 export default {
       components:{
-        Checkbox1,
         Checkbox2,
         Checkbox3
       },

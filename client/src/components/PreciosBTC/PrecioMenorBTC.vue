@@ -1,13 +1,16 @@
 <template>
 <v-container>
    
-    <div v-if=" coiner <= coiner2 " >
+    <div v-if=" coiner < coiner2 " >
         <h2>Bitso</h2>
-{{coiner}}
+<p>{{coiner}}</p>
     </div>
-     <div v-if="coiner2 <= coiner ">
+     <div v-if="coiner2 <coiner ">
         <h2>CoinCompare </h2>
-{{coiner2}}
+<p>{{coiner2}}</p>
+    </div>
+    <div v-if="coiner2 === coiner ">
+      <h2>los precios son iguales</h2>
     </div>
 </v-container>
     
