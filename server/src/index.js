@@ -159,7 +159,7 @@ app.get('/all/cuentas',(req,res) => {
 app.get('/cuenta/:id',(req,res)=> {
     const {id} = req.params;
     Cuenta.findById(id).exec()
-        .then(cuenta => cuenta ? res.send(cuenta) : res.status(404).send({message:'Pelicula not found'}))
+        .then(cuenta => cuenta ? res.send(cuenta) : res.status(404).send({message:'Cuenta not found'}))
         .catch(err => res.status(409).send(err))
 });
 
