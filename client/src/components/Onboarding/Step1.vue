@@ -28,8 +28,9 @@
     
     ></v-text-field>
     -->
-
+<router-link to="/home">
     <v-btn class="mr-4" @click="submit">submit</v-btn>
+    </router-link>
   </form>
   </v-container>
         </v-card >
@@ -39,6 +40,7 @@
 <script>
     
 import Axios from 'axios'
+import EventBus from '@/eventBus'
 
   export default {
    
@@ -48,8 +50,8 @@ import Axios from 'axios'
         nombre: '',
       email: '',
       contraseña: '',
-      }
-      
+      },
+      id:""
      
     }),
 
@@ -59,7 +61,17 @@ import Axios from 'axios'
       submit () {
         Axios
         .post('http://localhost:4000/create/cuenta',this.state)
-        .then(res => alert('Cuenta añadida'))
+        .then((response) =>{
+           console.log(response.data._id)
+           this.id = response.data._id
+           const payload = {
+             id: this.id
+           }
+           EventBus.$emit('DATA_PUBLISHED', payload) 
+          //  var idGlobal = response.data.id;
+        }
+        )
+        
         .catch(error => console.log(error)) 
       },
      

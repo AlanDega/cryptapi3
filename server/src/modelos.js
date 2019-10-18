@@ -10,31 +10,92 @@ mongoose.connect(URL_MONGO,{ useNewUrlParser: true },(error)=>{
 
 const Schema = mongoose.Schema;
 
-const CuentaSchema = new Schema({
-    nombre:String,
-    balance:Number,
-    depositos:[
-            {   
-
-                type:mongoose.Schema.Types.ObjectId,
-                ref: 'Deposito'
+// const CuentaSchema = new Schema({
+//     nombre:String,
+//     balance:Number,
+//     movimientos:[
+//             {   
+                
+//                 type:mongoose.Schema.Types.ObjectId,
+//                 ref: 'Movimiento'
             
-            }
+//             }
         
-    ]
+//     ]
   
   
   
     
-},{timestamps:true})
+// },{timestamps:true})
+
+// const MovimientoSchema = new Schema ({
+//     tipo:String,
+// },{timestamps:true})
+
+
+
+// const UsuarioSchema = new Schema ({
+//     nombre:String,
+//     correo:String,
+//     contraseña:String
+// },{timestamps:true})
+
+
+
+const CuentaSchema = new Schema({
+    nombre:String,
+    email:String,
+    saldoTotal:String,
+    BTC:String,
+            ETH:String,
+            XRP:String,
+            MxnBtc:String,
+            MxnEth:String,
+            MxnXrp:String,
+            MXN:String,
+            BTCpercentage: String,
+            ETHpercentage: String,
+            XRPpercentage: String,
+            MXNpercentage:String,
+            
+
+    wallet:{
+        type:[{
+            // BTC:String,
+            // ETH:String,
+            // XRP:String,
+            // MxnBtc:String,
+            // MxnEth:String,
+            // MxnXrp:String,
+            // MXN:String,
+            // BTCpercentage: String,
+            // ETHpercentage: String,
+            // XRPpercentage: String,
+        }]
+    },
+
+    movimientos:{
+        type:[{
+            tipo:String,
+            cantidad:String,
+           
+            moneda:{
+                type: String,
+                enum:['BTC','ETH'],
+                
+            }
+        }]
+    },
+},{timestamps:true});
 
 
 
 
-
-
+// const Usuario = mongoose.model('Usuario',UsuarioSchema);
 const Cuenta = mongoose.model('Cuenta',CuentaSchema);
+// const Movimiento = mongoose.model('Movimiento',MovimientoSchema);
 
 module.exports = {
+    
     Cuenta,
 } 

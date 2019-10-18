@@ -1,6 +1,8 @@
 
 <template>
 <div>
+                <!-- {{global}} -->
+<h1>{{data.id}}</h1>
   <v-tabs centered>
     <v-tab>BTC</v-tab>
     <v-tab>ETH</v-tab>
@@ -66,7 +68,43 @@
               <v-img src="@/assets/btc.png" width="60" height="60"></v-img>
 
               <PrecioMayorBTC />
-              <v-btn dark>venta</v-btn>
+              <v-bottom-sheet v-model="sheetBTCventa">
+                <template v-slot:activator="{ on }">
+                  <v-btn dark v-on="on">Venta</v-btn>
+                </template>
+                <v-sheet class="text-center" height="200px">
+                  <v-container>
+                    <!-- <div v-if="coins > coins2">
+                      <h2>Potencial de ganancia = {{this.BTCvolume * (coins - coins2) }}</h2>
+                    </div>
+                    <div v-if="coins2 > coins">
+                      <h2>Potencial de ganancia = {{this.BTCvolume * (coins2 - coins) }}</h2>
+                    </div> -->
+                  </v-container>
+
+                  <v-row>
+                    <v-col cols="4">
+                      <v-container>
+                        <!-- <v-text-field
+            @input="procesa"
+          outlined
+          label="cantidad BTC"
+          v-model="BTCvolume">
+          
+
+      
+                        </v-text-field>-->
+                        <input type="number" v-model="BTCVentaVolume" @input="procesaVenta" />
+                      </v-container>
+                    </v-col>
+                    <v-col cols="6">
+                      TotalMXN={{totalCompra}}
+                      <v-btn color="yellow" @click="ventaBTC">Aceptar</v-btn>
+                    </v-col>
+                    <v-col cols="6"></v-col>
+                  </v-row>
+                </v-sheet>
+              </v-bottom-sheet>
             </v-card>
           </v-col>
         </v-row>
@@ -277,6 +315,8 @@
 </template>
 
     <script>
+    import EventBus from '@/eventBus'
+
 import { mapState } from "vuex";
 
 import PrecioMayorBTC from "@/components/PreciosBTC/PrecioMayorBTC.vue";
@@ -300,6 +340,12 @@ export default {
   },
   data() {
     return {
+      data:{
+ id:"",
+      },
+     
+      PotencialGanancia:"",
+      BTCVentaVolume:"",
       coinsETH:"",
       coins2ETH:"",
       movs:[],
@@ -309,12 +355,14 @@ export default {
            precio:""
         },
       totalCompra: "",
+      totalVenta: "",
       totalCompraETH:"",
       BTCvolume: 0,
       ETHvolume:"",
       XRPvolume:"",
       sheet: false,
       sheetETH:false,
+      sheetBTCventa:false,
       cuenta: {
         MxnBtc: null,
         MxnEth: "0",
@@ -335,6 +383,9 @@ export default {
   },
   mounted() {
     this.$store.dispatch("loadBitso");
+    EventBus.$on('DATA_PUBLISHED', (payload) => {
+        this.updateData(payload)
+    })
     
   },
   created() {
@@ -346,6 +397,7 @@ export default {
         this.cuenta.BTC = response.data.BTC;
         this.cuenta.ETH = response.data.ETH; 
         this.cuenta.BTCpercentage = response.data.BTCpercentage;
+        console.log(this.cuenta.BTCpercentage);
         this.cuenta.MXNpercentage = response.data.MXNpercentage;
         this.cuenta.ETHpercentage = response.data.ETHpercentage;
         this.cuenta.saldoTotal = response.data.saldoTotal;
@@ -381,6 +433,12 @@ export default {
 
 
   methods: {
+
+    updateDate(payload){
+      this.data= payload
+    },
+
+
     procesa() {
       console.log("funcionaa");
       if (this.BTCvolume === "1") {
@@ -426,6 +484,7 @@ export default {
     },
 
     compraBTC() {
+//  this.PotencialGanancia = this.BTCvolume * (coins - coins2)
       const suma1 = Number(this.BTCvolume)
       this.cuenta.BTC = suma1 + Number(this.cuenta.BTC);
       // console.log(typeof this.cuenta.BTC, "wallet");
@@ -438,7 +497,7 @@ export default {
       this.cuenta.MxnBtc = this.BTCvolume * this.coins;
       console.log( typeof this.cuenta.MxnBtc, 'typemxnbtc' );
       var totalPorcentaje = Number(this.cuenta.MxnBtc) + Number(this.cuenta.MxnEth) + Number(this.cuenta.MxnXrp) + Number(this.cuenta.MXN)
-      this.cuenta.saldoTotal = totalPorcentaje;
+      // this.cuenta.saldoTotal = totalPorcentaje;
       //  console.log(this.MXN);
       //  console.log(this.coins);
       console.log('newsaldo', this.cuenta.saldoTotal );
@@ -493,16 +552,16 @@ compraETH() {
       // console.log(this.cuenta.saldoTotal,'saldoTotla');
       this.cuenta.MXN = this.cuenta.MXN - this.totalCompraETH;
       this.cuenta.MxnEth = this.ETHvolume * this.coinsETH;
-      console.log( typeof this.cuenta.MxnEth, 'typemxnbtc' );
-      var totalPorcentaje = Number(this.cuenta.MxnBtc) + Number(this.cuenta.MxnEth) + Number(this.cuenta.MxnXrp) + Number(this.cuenta.MXN)
-      this.cuenta.saldoTotal = totalPorcentaje;
+      console.log( typeof this.cuenta.MxnEth, 'typemxneth' );
+      var totalPorcentaje2 = Number(this.cuenta.MxnBtc) + Number(this.cuenta.MxnEth) + Number(this.cuenta.MxnXrp) + Number(this.cuenta.MXN)
+      // this.saldoTotal = totalPorcentaje2;
       //  console.log(this.MXN);
       //  console.log(this.coins);
       console.log('newsaldo', this.cuenta.saldoTotal );
       var arr = [this.cuenta.MXN, this.cuenta.MxnBtc, this.cuenta.MxnEth, this.cuenta.MxnXrp];
       console.log('arr %',arr[0], arr[1],arr[2],arr[3]);
       var porcentages = arr.map(function(element) {
-        return (element = (element / totalPorcentaje) * 100);
+        return (element = (element / totalPorcentaje2) * 100);
         // deposito inicial variable 2000000
       });
       console.log(porcentages);
@@ -535,13 +594,96 @@ compraETH() {
       })
 
  })
+},
 
- 
+procesaVenta(){
+
+      console.log("funcionaa");
+      if (this.BTCVentaVolume === "1") {
+        this.totalVenta = this.coins;
+        console.log(this.totalVenta,'totalventa');
+      }
+      if (this.BTCVentaVolume === "2") {
+        this.totalVenta = this.coins * 2;
+        //en vez de 2 btcvolume
+      }
+      if (this.BTCVentaVolume === "3") {
+        this.totalVenta = this.coins * 3;
+      }
+      if (this.BTCVentaVolume === "4") {
+        this.totalVenta = this.coins * 4;
+      }
+      if (this.BTCVentaVolume === "5") {
+        this.totalVenta = this.coins * 5;
+      }
     },
+     ventaBTC(){
+       if(this.coins > this.coins2){
+          this.PotencialGanancia = this.BTCvolume * (this.coins - this.coins2)
+       }
+       else if (this.coins2 > this.coins) {
+                   this.PotencialGanancia = this.BTCvolume * (this.coins2 - this.coins)
+
+       }
+      const resta1 = Number(this.BTCvolume)
+      this.cuenta.BTC = resta1 - Number(this.cuenta.BTC);
+      // console.log(typeof this.cuenta.BTC, "wallet");
+      // console.log(typeof this.BTCvolume, "volumes");
+      // console.log(this.cuenta.BTC );
+      // this.movimientos.tipo = this.coins;
+      // console.log(this.totalCompra,'totalcompra');
+      // console.log(this.cuenta.saldoTotal,'saldoTotla');
+      this.cuenta.MXN = Number(this.cuenta.MXN) + Number(this.totalVenta) + Number(this.PotencialGanancia);
+      // this.cuenta.MxnBtc -= this.BTCvolume * this.coins;
+      this.cuenta.MxnBtc = this.cuenta.MxnBtc - this.BTCvolume * this.coins;
+      console.log( typeof this.cuenta.MxnBtc, 'typemxnbtc' );
+      var totalPorcentaje = Number(this.cuenta.MxnBtc) + Number(this.cuenta.MxnEth) + Number(this.cuenta.MxnXrp) + Number(this.cuenta.MXN)
+      // this.cuenta.saldoTotal = totalPorcentaje;
+      //  console.log(this.MXN);
+      //  console.log(this.coins);
+      console.log('newsaldo', this.cuenta.saldoTotal );
+      var arr = [this.cuenta.MXN, this.cuenta.MxnBtc, this.cuenta.MxnEth, this.cuenta.MxnXrp];
+      console.log('arr %',arr[0], arr[1],arr[2],arr[3]);
+      var porcentages = arr.map(function(element) {
+        return (element = (element / totalPorcentaje) * 100);
+        // deposito inicial variable 2000000
+      });
+      console.log(porcentages);
+      this.cuenta.BTCpercentage = porcentages[1];
+      this.cuenta.MXNpercentage = porcentages[0];
+
+      this .movimientos.precio = this.coins
+      this .movimientos.moneda = "BTC"
+      this .movimientos.tipo = "venta"
 
 
-  }
-};
+      Axios
+      .patch(
+        "http://localhost:4000/cuenta/5da781e58bb9263858303277",
+        this.cuenta
+      )
+        .then(res => {
+          console.log("enviando cartera", this.cuenta);
+        })
+        .catch(error => console.log(error));
+            Axios
+           .post('http://localhost:4000/add/movimiento/5da781e58bb9263858303277',this.movimientos)
+ .then((res) => {
+      // console.log('cuentaMov',this.movimientos)
+      Axios.get("http://localhost:4000/cuenta/5da781e58bb9263858303277")
+      .then(response => {
+        // console.log("esta es responde de db", response.data);
+        this.cuenta.MXN = response.data.MXN;
+        this.cuenta.BTC = response.data.BTC;
+        this.cuenta.BTCpercentage = response.data.BTCpercentage
+      })
+
+ })
+     }
+}
+
+}
+;
 </script>
 
 <style >
