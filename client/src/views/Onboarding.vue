@@ -4,11 +4,44 @@
 >
     <v-stepper-items>
       <v-stepper-content step="1" class="stepa1">
-       <Step1 />
+       <div>
+ <v-card class="mt-10"
+        >
+        <v-toolbar
+        dark
+        color="blue">
+<h2>Registrate</h2>
+        </v-toolbar>
+        <v-container>
+  <form>
+    <v-text-field
+      v-model="state.nombre"
+      label="Nombre"
+      required
+     
+    ></v-text-field> 
+    <v-text-field
+      v-model="state.email"
+      label="E-mail"
+      required
+     
+    ></v-text-field>
+    <!-- <v-text-field
+      v-model="contraseña"
+      label="Contraseña"
+      required
+    
+    ></v-text-field>
+    -->
+
+  </form>
+  </v-container>
+        </v-card >
+    </div>
         <v-container class="mt-10" >
              <v-btn
           color="primary"
-          @click="e1 = 2"
+          @click="registra"
           
         >
           Continua
@@ -18,46 +51,8 @@
         </v-container>
       </v-stepper-content>
 
-<!-- step-2---------------------------------------------------------------------- -->
-
-      <v-stepper-content step="2">
-            <v-list-item-group
-        v-model="settings"
-        multiple
-      >
-        <v-card class="mt-10"
-        >
-        <v-toolbar
-        dark
-        color="blue">
-<h2>Elige 3 Cryptos</h2>
-        </v-toolbar>
-        <v-container>
-            <v-checkbox
-      v-model="checkbox1"
-    ></v-checkbox>
-     <v-checkbox
-      v-model="checkbox2"
-    ></v-checkbox>
-      </v-container>
-
-        </v-card >
-
-      </v-list-item-group>
-
-
-        <v-btn
-          color="primary"    
-
-          @click="enviaInfo"
-        >
-          Continue
-        </v-btn>
-
-        <v-btn text>Cancel</v-btn>
-      </v-stepper-content>
-
-  <!-- STEP---3 --------------------------------------------------- -->
+     
+  <!-- STEP---2--------------------------------------------------- -->
 
 
       <v-stepper-content step="3">
@@ -74,20 +69,23 @@
             outlined
             label="Ingresa la cantidad a depositar aquí"
             value=""
-            v-model="wallet.saldoTotal"
+            v-model="wallet.MXN"
             >
             </v-text-field>
      
             <!-- cantidad en azul -->
             </v-container>
         </v-card>
-
-        <v-btn
+        <router-link to="/home">
+           <v-btn
+           class="depositaBoton"
           color="primary"
           @click="depositar"
         >
           Continue
         </v-btn>
+        </router-link>
+       
 
         <v-btn text>Cancel</v-btn>
       </v-stepper-content>
@@ -109,6 +107,11 @@ import Axios from 'axios'
      },
     data () {
       return {
+         state:{
+        nombre: '',
+      email: '',
+      contraseña: '',
+      },
         e1: 0,
         settings: [],
         checkbox1: false,
@@ -124,7 +127,7 @@ import Axios from 'axios'
           moneda:"XRP"
         },
         wallet:{
-          saldoTotal:""
+          MXN:""
         }
       }
     },
@@ -143,7 +146,6 @@ import Axios from 'axios'
             },
 
       enviaInfo(){
-        this.e1 =  3;
         if(this.checkbox1 === true){
           console.log('vamosBien')
           Axios
@@ -161,8 +163,23 @@ import Axios from 'axios'
  )
  })
     }
+  },
+
+
+  registra(){
+    this.e1 = 3;
+    Axios
+     .post('http://localhost:4000/create/cuenta',this.state)
+        .then((response) =>{
+           console.log(response.data._id)
+             
+           })
+        
+        
+        .catch(error => console.log(error)) 
+      },
   }
-    }}
+    }
 </script>
 
 <style lang="scss" scoped>
@@ -171,5 +188,8 @@ import Axios from 'axios'
 }
 .stepa1{
     height: 100%;
+}
+.depositaBoton{
+  margin-top: 50px;
 }
 </style>

@@ -8,14 +8,17 @@
     <v-tab>XRP</v-tab>
 
     <v-tab-item>
-      <v-container>
-        <v-row>
+      <v-container class="text-center">
+        <v-row justify="center">
           <v-col cols="6">
             <v-card>
               <v-toolbar dark color="yellow darken-2">
-                <h1>Menor</h1>
+                <v-row>
+                  <v-col cols="2">
+              <v-img src="@/assets/btc.png" width="50" height="50"></v-img>
+                  </v-col>
+                </v-row>
               </v-toolbar>
-              <v-img src="@/assets/btc.png" width="60" height="60"></v-img>
               <v-container>
    <div v-show="!coins || !coins2">
 <v-progress-circular
@@ -23,13 +26,13 @@
       color="yellow"
     ></v-progress-circular>
    </div>
-    <div class="text-center" v-if=" coins < coins2 " >
-        <h2>Bitso</h2>
-<p>{{coins}}</p>
+    <div  v-if=" coins < coins2 " >
+        <h3>Bitso</h3>
+<h2>{{coins}}</h2>
     </div>
      <div class="text-center" v-if="coins2 < coins ">
-        <h2>CoinCompare </h2>
-<p>{{coins2}}</p>
+        <h3>CoinCompare </h3>
+<h2>{{coins2}}</h2>
     </div>
     <div v-if="coins === coins2 ">
       <h2>los precios son iguales</h2>
@@ -38,7 +41,7 @@
     
               <v-bottom-sheet v-model="sheet">
                 <template v-slot:activator="{ on }">
-                  <v-btn dark v-on="on">Compra</v-btn>
+                  <v-btn class="botonCompra" dark v-on="on">Compra</v-btn>
                 </template>
                 <v-sheet class="text-center" height="200px">
                   <v-container>
@@ -62,7 +65,7 @@
 
       
                         </v-text-field>-->
-                        <input type="number" v-model="BTCvolume" @input="procesa" />
+                        <input type="number" class="inputMov" v-model="BTCvolume" @input="procesa" />
                       </v-container>
                     </v-col>
                     <v-col cols="6">
@@ -81,9 +84,14 @@
           <v-col cols="6">
             <v-card>
               <v-toolbar dark color="yellow darken-2  ">
-                <h1>Mayor</h1>
+                 <v-row>
+                  <v-col cols="2">
+              <v-img src="@/assets/btc.png" width="50" height="50"></v-img>
+
+                  </v-col>
+                 
+                </v-row>
               </v-toolbar>
-              <v-img src="@/assets/btc.png" width="60" height="60"></v-img>
 
               <v-container>
                 <div v-show="!coins || !coins2">
@@ -93,12 +101,12 @@
     ></v-progress-circular>
    </div>
     <div class="text-center" v-if=" coins > coins2 " >
-        <h1>Bitso</h1>
-{{coins}}
+        <h3>Bitso</h3>
+            <h2>{{coins}}</h2>
     </div>
      <div class="text-center" v-if="coins2 > coins ">
-        <h1>CoinCompare</h1>
-{{coins2}}
+        <h3>CoinCompare</h3>
+           <h2>{{coins2}}</h2>
     </div>
      <div v-if="coins === coins2 ">
       <h2>los precios son iguales</h2>
@@ -106,7 +114,7 @@
 </v-container>
               <v-bottom-sheet v-model="sheetBTCventa">
                 <template v-slot:activator="{ on }">
-                  <v-btn dark v-on="on">Venta</v-btn>
+                  <v-btn class="botonCompra" dark v-on="on">Venta</v-btn>
                 </template>
                 <v-sheet class="text-center" height="200px">
                   <v-container>
@@ -130,7 +138,7 @@
 
       
                         </v-text-field>-->
-                        <input type="number" v-model="BTCVentaVolume" @input="procesaVenta" />
+                        <input class="inputMov" type="number" v-model="BTCVentaVolume" @input="procesaVenta" />
                       </v-container>
                     </v-col>
                     <v-col cols="6">
@@ -149,16 +157,21 @@
 
 <!-- -----------------------------------ETH------------------------------------------------- -->
         <v-tab-item>
-         <v-container>
+         <v-container class="text-center">
         <v-row>
           <v-col cols="6">
             <v-card>
               <v-toolbar dark color="deep-purple">
-                <h1>Menor</h1>
+                 <v-row>
+                  <v-col cols="2">
+              <v-img src="@/assets/eth2.png" width="50" height="50"></v-img>
+
+                  </v-col>
+                 
+                </v-row>
               </v-toolbar>
-              <v-img src="@/assets/ethLogo.png" width="60" height="60"></v-img>
               
-              <v-container>
+              <v-container >
     <div v-show="!coinsETH || !coins2ETH">
 <v-progress-circular
       indeterminate
@@ -166,12 +179,12 @@
     ></v-progress-circular>
     </div>
     <div v-if=" coinsETH < coins2ETH " >
-        <h2>Bitso</h2>
-<p>{{coinsETH}}</p>
+        <h3>Bitso</h3>
+<h2>{{coinsETH}}</h2>
     </div>
      <div v-if="coins2ETH <coinsETH ">
         <h2>CoinCompare </h2>
-<p>{{coins2ETH}}</p>
+<h3>{{coins2ETH}}</h3>
     </div>
     <div v-if="coins2ETH === coinsETH ">
       <h2>los precios son iguales</h2>
@@ -180,7 +193,7 @@
 
               <v-bottom-sheet v-model="sheetETH">
                 <template v-slot:activator="{ on}">
-                  <v-btn dark v-on="on">Compra</v-btn>
+                  <v-btn class="botonCompra" dark v-on="on">Compra</v-btn>
                 </template>
                 <v-sheet class="text-center" height="200px">
                   <v-container>
@@ -222,9 +235,15 @@
           <v-col cols="6">
             <v-card>
               <v-toolbar dark color="deep-purple  ">
-                <h1>Mayor</h1>
+                <v-row>
+                  <v-col cols="2">
+              <v-img src="@/assets/eth2.png" width="50" height="50"></v-img>
+
+                  </v-col>
+                 
+                </v-row>
               </v-toolbar>
-              <v-img src="@/assets/ethLogo.png" width="60" height="60"></v-img>
+              <v-container>
               <div v-show="!coinsETH || !coins2ETH">
             <v-progress-circular
       indeterminate
@@ -232,21 +251,21 @@
     ></v-progress-circular>
               </div>
               <div v-if=" coinsETH > coins2ETH " >
-        <h1>Bitso</h1>
-{{coinsETH}}
+        <h2>Bitso</h2>
+          <h3>{{coinsETH}}</h3>
     </div>
      <div v-if="coins2ETH > coinsETH ">
-        <h1>CoinCompare</h1>
-{{coins2ETH}}
+        <h3>CoinCompare</h3>
+ <h2>{{coins2ETH}}</h2>
     </div>
     <div v-if="coins2ETH === coinsETH ">
       <h2>los precios son iguales</h2>
     </div>
-
+</v-container>
 
               <v-bottom-sheet v-model="sheetETHventa">
                 <template v-slot:activator="{ on }">
-                  <v-btn dark v-on="on">Venta</v-btn>
+                  <v-btn class="botonCompra" dark v-on="on">Venta</v-btn>
                 </template>
                 <v-sheet class="text-center" height="200px">
                   <v-container>
@@ -292,14 +311,19 @@
 </v-tab-item>
 <!-- --------------------------------------------------------------XRP------------------------ -->
  <v-tab-item>
-         <v-container>
+         <v-container class="text-center">
         <v-row>
           <v-col cols="6">
             <v-card>
               <v-toolbar dark color="blue">
-                <h1>Menor</h1>
+                  <v-row>
+                  <v-col cols="2">
+              <v-img src="@/assets/ripple.png" width="50" height="50"></v-img>
+
+                  </v-col>
+                 
+                </v-row>
               </v-toolbar>
-              <v-img src="@/assets/ripple.png" width="60" height="60"></v-img>
               
               <v-container>
     <div v-if="!coinsXRP || !coins2XRP">
@@ -309,12 +333,12 @@
     ></v-progress-circular>
     </div>
     <div v-if=" coinsXRP < coins2XRP " >
-        <h2>Bitso</h2>
-<p>{{coinsXRP}}</p>
+        <h3>Bitso</h3>
+<h2>{{coinsXRP}}</h2>
     </div>
      <div v-if="coins2XRP <coinsXRP ">
-        <h2>CoinCompare </h2>
-<p>{{coins2XRP}}</p>
+        <h3>CoinCompare </h3>
+<h2>{{coins2XRP}}</h2>
     </div>
     <div v-if="coins2XRP === coinsXRP ">
       <h2>los precios son iguales</h2>
@@ -323,7 +347,7 @@
 
               <v-bottom-sheet v-model="sheetXRP">
                 <template v-slot:activator="{ on}">
-                  <v-btn dark v-on="on">Compra</v-btn>
+                  <v-btn class="botonCompra" dark v-on="on">Compra</v-btn>
                 </template>
                 <v-sheet class="text-center" height="200px">
                   <v-container>
@@ -365,9 +389,15 @@
           <v-col cols="6">
             <v-card>
               <v-toolbar dark color="blue  ">
-                <h1>Venta</h1>
+                <v-row>
+                  <v-col cols="2">
+              <v-img src="@/assets/ripple.png" width="50" height="50"></v-img>
+
+                  </v-col>
+                 
+                </v-row>
               </v-toolbar>
-              <v-img src="@/assets/ripple.png" width="60" height="60"></v-img>
+              <v-container>
               <div v-show="!coinsXRP || !coins2XRP">
             <v-progress-circular
       indeterminate
@@ -375,21 +405,21 @@
     ></v-progress-circular>
               </div>
               <div v-if=" coinsXRP > coins2XRP " >
-        <h1>Bitso</h1>
-{{coinsXRP}}
+        <h3>Bitso</h3>
+<h2>{{coinsXRP}}</h2>
     </div>
      <div v-if="coins2XRP > coinsXRP ">
-        <h1>CoinCompare</h1>
-{{coins2XRP}}
+        <h3>CoinCompare</h3>
+ <h2> {{coins2XRP}}</h2>
     </div>
     <div v-if="coins2XRP === coinsXRP ">
       <h2>los precios son iguales</h2>
     </div>
-
+</v-container>
 
               <v-bottom-sheet v-model="sheetXRPventa">
                 <template v-slot:activator="{ on }">
-                  <v-btn dark v-on="on">Venta</v-btn>
+                  <v-btn class="botonCompra" dark v-on="on">Venta</v-btn>
                 </template>
                 <v-sheet class="text-center" height="200px">
                   <v-container>
@@ -418,7 +448,7 @@
                     </v-col>
                     <v-col cols="6">
                       TotalMXN={{totalCompra}}
-                      <v-btn color="deep-purple" @click="ventaXRP">Aceptar</v-btn>
+                      <v-btn color="blue" @click="ventaXRP">Aceptar</v-btn>
                     </v-col>
                     <v-col cols="6"></v-col>
                   </v-row>
@@ -502,7 +532,7 @@
                                         <v-list-item-title>ETH{{cuenta.ETH}}</v-list-item-title>
                                             <v-list-item-title>XRP{{cuenta.XRP}}</v-list-item-title>
 
-                                        <v-list-item-title>Total{{cuenta.saldoTotal}}</v-list-item-title>
+                                        <!-- <v-list-item-title>Total{{cuenta.saldoTotal}}</v-list-item-title> -->
 
                   </v-list-item-content>
                 </v-list-item>
@@ -531,7 +561,9 @@
     </v-toolbar>
     <ul>
       <li v-for="move in movs" :key="move.id">
-              {{move.moneda+ move.precio}}
+              <!-- {{move.moneda + move.precio}} -->
+              {{move.tipo + move.moneda }}
+
 
       </li>
     </ul>
@@ -604,8 +636,8 @@ export default {
       totalCompraETH:"",
       totalCompraXRP:"",
       BTCvolume: 0,
-      ETHvolume:"",
-      XRPvolume:"",
+      ETHvolume:0,
+      XRPvolume:0,
       sheet: false,
       sheetETH:false,
       sheetETHventa:false,
@@ -669,6 +701,7 @@ console.log(this.coinsXRP,'coinsxrp');
     .get('http://localhost:4000/cuenta/5da781e58bb9263858303277')
     .then((response) => {
             this.movs=response.data.movimientos
+            console.log('movs',response.data.movimientos)
 
       // this.movs[0].title =response.data[2].movimientos.mov1;
       // this.movs[0].action=response.data[2].createdAt
@@ -1269,5 +1302,13 @@ procesaVentaXRP(){
 <style >
 .saldoNum {
   color: black;
+}
+
+input[type = number]{
+  box-sizing: border-box;
+}
+
+.botonCompra{
+  margin-bottom:15px;
 }
 </style>
