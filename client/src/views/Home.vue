@@ -2,7 +2,6 @@
 <template>
 <div>
                 <!-- {{global}} -->
-<h1>{{data.id}}</h1>
   <v-tabs centered>
     <v-tab>BTC</v-tab>
     <v-tab>ETH</v-tab>
@@ -17,7 +16,26 @@
                 <h1>Menor</h1>
               </v-toolbar>
               <v-img src="@/assets/btc.png" width="60" height="60"></v-img>
-              <PrecioMenorBTC />
+              <v-container>
+   <div v-show="!coins || !coins2">
+<v-progress-circular
+      indeterminate
+      color="yellow"
+    ></v-progress-circular>
+   </div>
+    <div class="text-center" v-if=" coins < coins2 " >
+        <h2>Bitso</h2>
+<p>{{coins}}</p>
+    </div>
+     <div class="text-center" v-if="coins2 < coins ">
+        <h2>CoinCompare </h2>
+<p>{{coins2}}</p>
+    </div>
+    <div v-if="coins === coins2 ">
+      <h2>los precios son iguales</h2>
+    </div>
+</v-container>
+    
               <v-bottom-sheet v-model="sheet">
                 <template v-slot:activator="{ on }">
                   <v-btn dark v-on="on">Compra</v-btn>
@@ -67,7 +85,25 @@
               </v-toolbar>
               <v-img src="@/assets/btc.png" width="60" height="60"></v-img>
 
-              <PrecioMayorBTC />
+              <v-container>
+                <div v-show="!coins || !coins2">
+<v-progress-circular
+      indeterminate
+      color="yellow"
+    ></v-progress-circular>
+   </div>
+    <div class="text-center" v-if=" coins > coins2 " >
+        <h1>Bitso</h1>
+{{coins}}
+    </div>
+     <div class="text-center" v-if="coins2 > coins ">
+        <h1>CoinCompare</h1>
+{{coins2}}
+    </div>
+     <div v-if="coins === coins2 ">
+      <h2>los precios son iguales</h2>
+    </div>
+</v-container>
               <v-bottom-sheet v-model="sheetBTCventa">
                 <template v-slot:activator="{ on }">
                   <v-btn dark v-on="on">Venta</v-btn>
@@ -118,12 +154,17 @@
           <v-col cols="6">
             <v-card>
               <v-toolbar dark color="deep-purple">
-                <h1>Compra</h1>
+                <h1>Menor</h1>
               </v-toolbar>
               <v-img src="@/assets/ethLogo.png" width="60" height="60"></v-img>
               
               <v-container>
-   
+    <div v-show="!coinsETH || !coins2ETH">
+<v-progress-circular
+      indeterminate
+      color="purple"
+    ></v-progress-circular>
+    </div>
     <div v-if=" coinsETH < coins2ETH " >
         <h2>Bitso</h2>
 <p>{{coinsETH}}</p>
@@ -181,11 +222,65 @@
           <v-col cols="6">
             <v-card>
               <v-toolbar dark color="deep-purple  ">
-                <h1>Venta</h1>
+                <h1>Mayor</h1>
               </v-toolbar>
               <v-img src="@/assets/ethLogo.png" width="60" height="60"></v-img>
+              <div v-show="!coinsETH || !coins2ETH">
+            <v-progress-circular
+      indeterminate
+      color="purple"
+    ></v-progress-circular>
+              </div>
+              <div v-if=" coinsETH > coins2ETH " >
+        <h1>Bitso</h1>
+{{coinsETH}}
+    </div>
+     <div v-if="coins2ETH > coinsETH ">
+        <h1>CoinCompare</h1>
+{{coins2ETH}}
+    </div>
+    <div v-if="coins2ETH === coinsETH ">
+      <h2>los precios son iguales</h2>
+    </div>
 
-              <PrecioMayorETH />
+
+              <v-bottom-sheet v-model="sheetETHventa">
+                <template v-slot:activator="{ on }">
+                  <v-btn dark v-on="on">Venta</v-btn>
+                </template>
+                <v-sheet class="text-center" height="200px">
+                  <v-container>
+                    <!-- <div v-if="coins > coins2">
+                      <h2>Potencial de ganancia = {{this.BTCvolume * (coins - coins2) }}</h2>
+                    </div>
+                    <div v-if="coins2 > coins">
+                      <h2>Potencial de ganancia = {{this.BTCvolume * (coins2 - coins) }}</h2>
+                    </div> -->
+                  </v-container>
+
+                  <v-row>
+                    <v-col cols="4">
+                      <v-container>
+                        <!-- <v-text-field
+            @input="procesa"
+          outlined
+          label="cantidad BTC"
+          v-model="BTCvolume">
+          
+
+      
+                        </v-text-field>-->
+                        <input type="number" v-model="ETHVentaVolume" @input="procesaVentaETH" />
+                      </v-container>
+                    </v-col>
+                    <v-col cols="6">
+                      TotalMXN={{totalCompra}}
+                      <v-btn color="deep-purple" @click="ventaETH">Aceptar</v-btn>
+                    </v-col>
+                    <v-col cols="6"></v-col>
+                  </v-row>
+                </v-sheet>
+              </v-bottom-sheet>
             </v-card>
           </v-col>
         </v-row>
@@ -197,51 +292,206 @@
 </v-tab-item>
 <!-- --------------------------------------------------------------XRP------------------------ -->
  <v-tab-item>
- <v-container>
+         <v-container>
         <v-row>
           <v-col cols="6">
             <v-card>
-              <v-toolbar dark color="deep-purple">
-                <h1>Compra</h1>
+              <v-toolbar dark color="blue">
+                <h1>Menor</h1>
               </v-toolbar>
-              <v-img src="@/assets/btc.png" width="60" height="60"></v-img>
-              <PrecioMenor />
+              <v-img src="@/assets/ripple.png" width="60" height="60"></v-img>
+              
+              <v-container>
+    <div v-if="!coinsXRP || !coins2XRP">
+<v-progress-circular
+      indeterminate
+      color="blue"
+    ></v-progress-circular>
+    </div>
+    <div v-if=" coinsXRP < coins2XRP " >
+        <h2>Bitso</h2>
+<p>{{coinsXRP}}</p>
+    </div>
+     <div v-if="coins2XRP <coinsXRP ">
+        <h2>CoinCompare </h2>
+<p>{{coins2XRP}}</p>
+    </div>
+    <div v-if="coins2XRP === coinsXRP ">
+      <h2>los precios son iguales</h2>
+    </div>
+</v-container>
+
+              <v-bottom-sheet v-model="sheetXRP">
+                <template v-slot:activator="{ on}">
+                  <v-btn dark v-on="on">Compra</v-btn>
+                </template>
+                <v-sheet class="text-center" height="200px">
+                  <v-container>
+                    <div v-if="coinsXRP > coins2XRP">
+                      <h2>Potencial de ganancia = {{this.XRPvolume * (coinsXRP - coins2XRP) }}</h2>
+                    </div>
+                    <div v-if="coins2XRP > coinsXRP">
+                      <h2>Potencial de ganancia = {{this.XRPvolume * (coins2XRP - coinsXRP) }}</h2>
+                    </div>
+                  </v-container>
+
+                  <v-row>
+                    <v-col cols="4">
+                      <v-container>
+                        <!-- <v-text-field
+            @input="procesa"
+          outlined
+          label="cantidad BTC"
+          v-model="BTCvolume">
+          
+
+      
+                        </v-text-field>-->
+                        <input type="number" v-model="XRPvolume" @input="procesaXRP" />
+                      </v-container>
+                    </v-col>
+                    <v-col cols="6">
+                      TotalMXN={{totalCompraXRP}}
+                      <v-btn color="blue" @click="compraXRP">Aceptar</v-btn>
+                    </v-col>
+                    <v-col cols="6"></v-col>
+                  </v-row>
+                </v-sheet>
+              </v-bottom-sheet>
             </v-card>
           </v-col>
+
+
           <v-col cols="6">
             <v-card>
-              <v-toolbar dark color="yellow darken-2  ">
+              <v-toolbar dark color="blue  ">
                 <h1>Venta</h1>
               </v-toolbar>
-              <v-img src="@/assets/btc.png" width="60" height="60"></v-img>
+              <v-img src="@/assets/ripple.png" width="60" height="60"></v-img>
+              <div v-show="!coinsXRP || !coins2XRP">
+            <v-progress-circular
+      indeterminate
+      color="blue"
+    ></v-progress-circular>
+              </div>
+              <div v-if=" coinsXRP > coins2XRP " >
+        <h1>Bitso</h1>
+{{coinsXRP}}
+    </div>
+     <div v-if="coins2XRP > coinsXRP ">
+        <h1>CoinCompare</h1>
+{{coins2XRP}}
+    </div>
+    <div v-if="coins2XRP === coinsXRP ">
+      <h2>los precios son iguales</h2>
+    </div>
 
-              <PrecioMayor />
+
+              <v-bottom-sheet v-model="sheetXRPventa">
+                <template v-slot:activator="{ on }">
+                  <v-btn dark v-on="on">Venta</v-btn>
+                </template>
+                <v-sheet class="text-center" height="200px">
+                  <v-container>
+                    <!-- <div v-if="coins > coins2">
+                      <h2>Potencial de ganancia = {{this.BTCvolume * (coins - coins2) }}</h2>
+                    </div>
+                    <div v-if="coins2 > coins">
+                      <h2>Potencial de ganancia = {{this.BTCvolume * (coins2 - coins) }}</h2>
+                    </div> -->
+                  </v-container>
+
+                  <v-row>
+                    <v-col cols="4">
+                      <v-container>
+                        <!-- <v-text-field
+            @input="procesa"
+          outlined
+          label="cantidad BTC"
+          v-model="BTCvolume">
+          
+
+      
+                        </v-text-field>-->
+                        <input type="number" v-model="XRPVentaVolume" @input="procesaVentaXRP" />
+                      </v-container>
+                    </v-col>
+                    <v-col cols="6">
+                      TotalMXN={{totalCompra}}
+                      <v-btn color="deep-purple" @click="ventaXRP">Aceptar</v-btn>
+                    </v-col>
+                    <v-col cols="6"></v-col>
+                  </v-row>
+                </v-sheet>
+              </v-bottom-sheet>
             </v-card>
           </v-col>
         </v-row>
         <v-card>
-          <!-- <Ganancia /> -->
+          <Ganancia />
         </v-card>
       </v-container>
-      </v-tab-item>
+
+</v-tab-item>
         </v-tabs>
         <!-- -----------------PERCENTAGES----------------------- -->
 <v-container >
 <v-card>
-            <v-row>
+  <v-row>
+    <v-col cols="8">
+<v-row>
               <v-col cols="6">
                 <v-progress-circular
                   :value="cuenta.BTCpercentage"
                   color="yellow darken-2"
-                  size="300"
-                  width="22"
+                  size="220"
+                  width="18"
                 >
                       <!-- {{saldos.MxnBtc}} -->
-                      <h2>{{cuenta.BTCpercentage}}%</h2>
+                      <h2>BTC</h2>
+                </v-progress-circular>
+                
+              </v-col>
+              <v-col cols="6">
+               
+                <v-progress-circular
+                  :value="cuenta.ETHpercentage"
+                  color="deep-purple"
+                  size="220"
+                  width="18"
+                >
+                      <!-- {{saldos.MxnBtc}} -->
+                      <h2>ETH</h2>
                 </v-progress-circular>
               </v-col>
               <v-col cols="6">
-                <v-list-item>
+                <v-progress-circular
+                  :value="cuenta.MXNpercentage"
+                  color="green darken-1"
+                  size="220"
+                  width="18"
+                >
+                      <!-- {{saldos.MxnBtc}} -->
+                      <h2>MXN</h2>
+                </v-progress-circular>
+              </v-col>
+              <v-col cols="6">
+                <v-progress-circular
+                  :value="cuenta.XRPpercentage"
+                  color="blue"
+                  size="220"
+                  width="18"
+                >
+                      <!-- {{saldos.MxnBtc}} -->
+                      <h2>XRP</h2>
+                </v-progress-circular>
+              </v-col>
+              
+            </v-row>
+    </v-col>
+    <v-col cols="4">
+      <v-list>
+      <v-list-item>
                   <v-list-item-content>
                     <v-list-item-title>MXN {{cuenta.MXN}}</v-list-item-title>
                   </v-list-item-content>
@@ -250,46 +500,27 @@
                   <v-list-item-content>
                     <v-list-item-title>BTC {{cuenta.BTC}}</v-list-item-title>
                                         <v-list-item-title>ETH{{cuenta.ETH}}</v-list-item-title>
+                                            <v-list-item-title>XRP{{cuenta.XRP}}</v-list-item-title>
+
                                         <v-list-item-title>Total{{cuenta.saldoTotal}}</v-list-item-title>
 
                   </v-list-item-content>
                 </v-list-item>
-              </v-col>
-              <v-col cols="6">
-                <v-progress-circular
-                  :value="cuenta.ETHpercentage"
-                  color="deep-purple"
-                  size="300"
-                  width="22"
-                >
-                      <!-- {{saldos.MxnBtc}} -->
-                      <h2>{{cuenta.ETHpercentage}}%</h2>
-                </v-progress-circular>
-              </v-col>
-              <v-col cols="6">
-                <v-progress-circular
-                  :value="cuenta.MXNpercentage"
-                  color="green darken-1"
-                  size="300"
-                  width="22"
-                >
-                      <!-- {{saldos.MxnBtc}} -->
-                      <h2>{{cuenta.MXNpercentage}}%</h2>
-                </v-progress-circular>
-              </v-col>
-              
-            </v-row>
+                </v-list>
+    </v-col>
+  </v-row>
+          
         </v-card>
 
 </v-container>
         
 
 <!-- ---------------MOVIMIENTOS---------------------------------------------------- -->
-
+<v-container>
         <v-card
   >
     <v-toolbar
-      color="yellow darken-2"
+      color="blue darken-2"
       dark
     >
       <v-toolbar-title>Movimientos</v-toolbar-title>
@@ -300,11 +531,12 @@
     </v-toolbar>
     <ul>
       <li v-for="move in movs" :key="move.id">
-              {{move.moneda}}
+              {{move.moneda+ move.precio}}
 
       </li>
     </ul>
   </v-card>
+</v-container>
 
 
     <!-- // eth----------------------------------------------------------------------------- -->
@@ -354,9 +586,13 @@ export default {
             PotencialGananciaETH:"",
       BTCVentaVolume:"",
             ETHVentaVolume:"",
+            XRPVentaVolume:"",
             totalVentaETH:"",
+            totalVentaXRP:"",
       coinsETH:"",
       coins2ETH:"",
+      coinsXRP:"",
+      coins2XRP:"",
       movs:[],
        movimientos: {
            tipo:"",
@@ -366,19 +602,24 @@ export default {
       totalCompra: "",
       totalVenta: "",
       totalCompraETH:"",
+      totalCompraXRP:"",
       BTCvolume: 0,
       ETHvolume:"",
       XRPvolume:"",
       sheet: false,
       sheetETH:false,
+      sheetETHventa:false,
       sheetBTCventa:false,
+      sheetXRP:false,
+      sheetXRPventa:false,
+
       cuenta: {
         MxnBtc: null,
         MxnEth: "0",
         MxnXrp: "0",
         BTCpercentage: "",
         ETHpercentage: "",
-        XRPpercentage: "",
+        XRPpercentage: "0",
         MXNpercentage:"",
         BTC: null,
         ETH: "",
@@ -395,11 +636,22 @@ export default {
     EventBus.$on('DATA_PUBLISHED', (payload) => {
         this.updateData(payload)
     })
+    Axios
+      .get("https://api.bitso.com/v3/order_book/?book=xrp_mxn")
+      .then((response) => {
+      this.coinsXRP =  response.data.payload.bids[0].price;
+console.log(this.coinsXRP,'coinsxrp');
+      } )  
+             Axios
+      .get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=ETH,BTC,XRP&tsyms=MXN&api_key=07ef122416564c2ba3d7eb0ea39ede317487f06eae2252802a8d5377b6b29a68')
+      .then(result => 
+        this.coins2XRP=  result.data.XRP.MXN
+            )
     
   },
   created() {
     this.$store.dispatch("loadCoin");
-    Axios.get("http://localhost:4000/cuenta/5da781e58bb9263858303277")
+    Axios.get("http://localhost:4000/cuenta/" + "5da781e58bb9263858303277")
       .then(response => {
         console.log("esta es responde de db", response.data);
         this.cuenta.MXN = response.data.MXN;
@@ -409,6 +661,7 @@ export default {
         console.log(this.cuenta.BTCpercentage);
         this.cuenta.MXNpercentage = response.data.MXNpercentage;
         this.cuenta.ETHpercentage = response.data.ETHpercentage;
+        this.cuenta.XRPpercentage = response.data.XRPpercentage;
         this.cuenta.saldoTotal = response.data.saldoTotal;
       })
       .catch();
@@ -429,9 +682,15 @@ export default {
       
        Axios
       .get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=ETH,BTC,EOS&tsyms=MXN&api_key=07ef122416564c2ba3d7eb0ea39ede317487f06eae2252802a8d5377b6b29a68')
-      .then(result => 
+      .then((result) => {
         this.coins2ETH=  result.data.ETH.MXN
+                            console.log('coins2eth', this.coins2ETH)
+
+
+      }
             )
+
+
       
       
       
@@ -484,13 +743,13 @@ export default {
       console.log('coins2', this.coins2ETH);
       if(this.coinsETH < this.coins2ETH){
         console.log('menorcoins', this.coinsETH);
-        this.menorETH= this.coinsETH
+        this.menorETH = this.coinsETH
       }
       if(this.coins2ETH < this.coinsETH){
         console.log('menorcoins2',this.coins2ETH);
-         this.menorETH= this.coins2ETH
+         this.menorETH = this.coins2ETH
       }
-      console.log(this.menorETH);
+      console.log(this.menorETH, 'menoreth');
 
       if (this.ETHvolume === "1") {
         this.totalCompraETH = this.menorETH;
@@ -509,6 +768,40 @@ export default {
       }
       if (this.ETHvolume === "5") {
         this.totalCompraETH = this.menorETH * 5;
+      }
+      //  this.totalCompra = this.BTCvolume * coins
+    },
+
+    procesaXRP() {
+      console.log('coinsxrp', this.coinsXRP);
+      console.log('coins2xrp', this.coins2XRP);
+      if(this.coinsXRP < this.coins2XRP){
+        console.log('menorcoinsXRP', this.coinsXRP);
+        this.menorXRP = this.coinsXRP
+      }
+      if(this.coins2XRP < this.coinsXRP){
+        console.log('menorcoins2',this.coins2XRP);
+         this.menorXRP = this.coins2XRP
+      }
+      console.log(this.menorXRP, 'menorxrp');
+
+      if (this.XRPvolume === "1") {
+        this.totalCompraXRP = this.menorXRP;
+        console.log(this.totalCompraXRP);
+      }
+      if (this.XRPvolume === "2") {
+        this.totalCompraXRP = this.menorXRP * 2;
+        //en vez de 2 btcvolume
+        //compraETH en vez de coins ETH
+      }
+      if (this.XRPvolume === "3") {
+        this.totalCompraXRP = this.menorXRP * 3;
+      }
+      if (this.XRPvolume === "4") {
+        this.totalCompraXRP = this.menorXRP * 4;
+      }
+      if (this.XRPvolume === "5") {
+        this.totalCompraXRP = this.menorXRP * 5;
       }
       //  this.totalCompra = this.BTCvolume * coins
     },
@@ -539,8 +832,8 @@ export default {
         // deposito inicial variable 2000000
       });
       console.log(porcentages);
+      this.cuenta.XRPpercentage= porcentages[3];
             this.cuenta.ETHpercentage=porcentages[2];
-
       this.cuenta.BTCpercentage = porcentages[1];
       this.cuenta.MXNpercentage = porcentages[0];
 
@@ -568,6 +861,8 @@ export default {
         this.cuenta.MXN = response.data.MXN;
         this.cuenta.BTC = response.data.BTC;
         this.cuenta.BTCpercentage = response.data.BTCpercentage
+
+        this.movs = response.data.movimientos
       })
 
  })
@@ -599,6 +894,7 @@ compraETH() {
         // deposito inicial variable 2000000
       });
       console.log(porcentages);
+      this.cuenta.XRPpercentage = porcentages[3];
       this.cuenta.ETHpercentage = porcentages[2];
       this.cuenta.BTCpercentage = porcentages[1];
       this.cuenta.MXNpercentage = porcentages[0];
@@ -627,11 +923,73 @@ compraETH() {
         this.cuenta.MXN = response.data.MXN;
         this.cuenta.ETH = response.data.ETH;
         this.cuenta.ETHpercentage = response.data.ETHpercentage
+                this.movs = response.data.movimientos
+
       })
 
  })
 },
 
+compraXRP() {
+      const suma3 = Number(this.XRPvolume)
+      this.cuenta.XRP = suma3 + Number(this.cuenta.XRP);
+      // console.log(typeof this.cuenta.BTC, "wallet");
+      // console.log(typeof this.BTCvolume, "volumes");
+      // console.log(this.cuenta.BTC );
+      // this.movimientos.tipo = this.coins;
+      // console.log(this.totalCompra,'totalcompra');
+      // console.log(this.cuenta.saldoTotal,'saldoTotla');
+      this.cuenta.MXN = this.cuenta.MXN - this.totalCompraXRP;
+      
+      this.cuenta.MxnXrp = this.XRPvolume * this.menorXRP;
+      console.log( typeof this.cuenta.MxnXrp, 'typemxnXrp' );
+      var totalPorcentaje3 = Number(this.cuenta.MxnBtc) + Number(this.cuenta.MxnEth) + Number(this.cuenta.MxnXrp) + Number(this.cuenta.MXN)
+      // this.saldoTotal = totalPorcentaje2;
+      //  console.log(this.MXN);
+      //  console.log(this.coins);
+      console.log('newsaldo', this.cuenta.saldoTotal );
+      var arr = [this.cuenta.MXN, this.cuenta.MxnBtc, this.cuenta.MxnEth, this.cuenta.MxnXrp];
+      console.log('arr %',arr[0], arr[1],arr[2],arr[3]);
+      var porcentages = arr.map(function(element) {
+        return (element = (element / totalPorcentaje3) * 100);
+        // deposito inicial variable 2000000
+      });
+      console.log(porcentages);
+      this.cuenta.XRPpercentage = porcentages[3];
+      this.cuenta.ETHpercentage = porcentages[2];
+      this.cuenta.BTCpercentage = porcentages[1];
+      this.cuenta.MXNpercentage = porcentages[0];
+
+      this .movimientos.precio = this.menorXRP
+      this .movimientos.moneda = "XRP"
+      this .movimientos.tipo = "compra"
+
+
+      Axios
+      .patch(
+        "http://localhost:4000/cuenta/5da781e58bb9263858303277",
+        this.cuenta
+      )
+        .then(res => {
+          // console.log("enviando cartera", this.cuenta);
+        })
+        .catch(error => console.log(error));
+            Axios
+           .post('http://localhost:4000/add/movimiento/5da781e58bb9263858303277',this.movimientos)
+ .then((res) => {
+      // console.log('cuentaMov',this.movimientos)
+      Axios.get("http://localhost:4000/cuenta/5da781e58bb9263858303277")
+      .then(response => {
+        // console.log("esta es responde de db", response.data);
+        this.cuenta.MXN = response.data.MXN;
+        this.cuenta.ETH = response.data.ETH;
+        this.cuenta.ETHpercentage = response.data.ETHpercentage
+                this.movs = response.data.movimientos
+
+      })
+
+ })
+},
 procesaVenta(){
 
       console.log("funcionaa");
@@ -650,7 +1008,7 @@ procesaVenta(){
         this.totalVenta = this.menorBTC * 4;
       }
       if (this.BTCVentaVolume === "5") {
-        this.totalVenta = this.menorBTC * 5;
+        this.totalVenta = this.menorBTC * 500;
       }
     },
      ventaBTC(){
@@ -685,8 +1043,8 @@ procesaVenta(){
         // deposito inicial variable 2000000
       });
       console.log(porcentages);
+            this.cuenta.XRPpercentage = porcentages[3];
        this.cuenta.ETHpercentage=porcentages[2];
-
       this.cuenta.BTCpercentage = porcentages[1];
       this.cuenta.MXNpercentage = porcentages[0];
 
@@ -714,6 +1072,8 @@ procesaVenta(){
         this.cuenta.MXN = response.data.MXN;
         this.cuenta.BTC = response.data.BTC;
         this.cuenta.BTCpercentage = response.data.BTCpercentage
+                this.movs = response.data.movimientos
+
         // aqui es necesario los demas porcentages?
       })
 
@@ -730,22 +1090,22 @@ procesaVenta(){
         this.totalVentaETH = this.menorETH * 2;
         //en vez de 2 btcvolume
       }
-      if (this.BTCVentaVolume === "3") {
+      if (this.ETHVentaVolume === "3") {
         this.totalVentaETH = this.menorETH * 3;
       }
-      if (this.BTCVentaVolume === "4") {
+      if (this.ETHVentaVolume === "4") {
         this.totalVentaETH = this.menorETH * 4;
       }
-      if (this.BTCVentaVolume === "5") {
+      if (this.ETHVentaVolume === "5") {
         this.totalVentaETH = this.menorETH * 5;
       }
     },
   ventaETH(){
  if(this.coinsETH > this.coins2ETH){
-          this.PotencialGanancia = this.ETHvolume * (this.coinsETH - this.coins2ETH)
+          this.PotencialGananciaETH = this.ETHvolume * (this.coinsETH - this.coins2ETH)
        }
-       else if (this.coins2 > this.coins) {
-                   this.PotencialGanancia = this.BTCvolume * (this.coins2ETH - this.coinsETH)
+       else if (this.coins2ETH > this.coinsETH) {
+                   this.PotencialGananciaETH = this.ETHvolume * (this.coins2ETH - this.coinsETH)
 
        }
       const resta2= Number(this.ETHvolume)
@@ -756,10 +1116,10 @@ procesaVenta(){
       // this.movimientos.tipo = this.coins;
       // console.log(this.totalCompra,'totalcompra');
       // console.log(this.cuenta.saldoTotal,'saldoTotla');
-      this.cuenta.MXN = Number(this.cuenta.MXN) + Number(this.totalVentaETH) + Number(this.PotencialGanancia);
+      this.cuenta.MXN = Number(this.cuenta.MXN) + Number(this.totalVentaETH) + Number(this.PotencialGananciaETH);
       // this.cuenta.MxnBtc -= this.BTCvolume * this.coins;
-      this.cuenta.MxnBtc = this.cuenta.MxnBtc - this.ETHvolume * this.menorETH;
-      console.log( typeof this.cuenta.MxnBtc, 'typemxnbtc' );
+      this.cuenta.MxnEth = this.cuenta.MxnEth - this.ETHvolume * this.menorETH;
+      console.log( typeof this.cuenta.MxnEth, 'typemxnbtc' );
       var totalPorcentaje = Number(this.cuenta.MxnBtc) + Number(this.cuenta.MxnEth) + Number(this.cuenta.MxnXrp) + Number(this.cuenta.MXN)
       // this.cuenta.saldoTotal = totalPorcentaje;
       //  console.log(this.MXN);
@@ -772,8 +1132,8 @@ procesaVenta(){
         // deposito inicial variable 2000000
       });
       console.log(porcentages);
+            this.cuenta.XRPpercentage = porcentages[3];
        this.cuenta.ETHpercentage=porcentages[2];
-
       this.cuenta.BTCpercentage = porcentages[1];
       this.cuenta.MXNpercentage = porcentages[0];
 
@@ -800,13 +1160,103 @@ procesaVenta(){
         // console.log("esta es responde de db", response.data);
         this.cuenta.MXN = response.data.MXN;
         this.cuenta.BTC = response.data.BTC;
-        this.cuenta.BTCpercentage = response.data.BTCpercentage
+                this.movs = response.data.movimientos
+
+        // this.cuenta.BTCpercentage = response.data.BTCpercentage
         // % necesarios?
       })
 
  })
      },
+procesaVentaXRP(){
 
+      console.log("funcionaa");
+      if (this.XRPVentaVolume === "1") {
+        this.totalVentaXRP = this.menorXRP;
+        console.log(this.totalVentaXRP,'totalventaxrp');
+      }
+      if (this.XRPVentaVolume === "2") {
+        this.totalVentaXRP = this.menorXRP * 2;
+        //en vez de 2 btcvolume
+      }
+      if (this.XRPVentaVolume === "3") {
+        this.totalVentaXRP = this.menorXRP * 3;
+      }
+      if (this.XRPVentaVolume === "4") {
+        this.totalVentaXRP = this.menorXRP * 4;
+      }
+      if (this.XRPVentaVolume === "500") {
+        this.totalVentaXRP = this.menorXRP * 5;
+      }
+    },
+  ventaXRP(){
+ if(this.coinsXRP > this.coins2XRP){
+          this.PotencialGananciaXRP = this.XRPvolume * (this.coinsXRP - this.coins2XRP)
+       }
+       else if (this.coins2XRP > this.coinsXRP) {
+                   this.PotencialGananciaXRP = this.XRPvolume * (this.coins2XRP - this.coinsXRP)
+
+       }
+      const resta3= Number(this.XRPvolume)
+      this.cuenta.XRP = resta3 - Number(this.cuenta.XRP);
+      // console.log(typeof this.cuenta.BTC, "wallet");
+      // console.log(typeof this.BTCvolume, "volumes");
+      // console.log(this.cuenta.BTC );
+      // this.movimientos.tipo = this.coins;
+      // console.log(this.totalCompra,'totalcompra');
+      // console.log(this.cuenta.saldoTotal,'saldoTotla');
+      this.cuenta.MXN = Number(this.cuenta.MXN) + Number(this.totalVentaXRP) + Number(this.PotencialGananciaXRP);
+      // this.cuenta.MxnBtc -= this.BTCvolume * this.coins;
+      this.cuenta.MxnXrp = this.cuenta.MxnXrp - this.XRPvolume * this.menorXRP;
+      console.log( typeof this.cuenta.MxnXrp, 'typemxnbtc' );
+      var totalPorcentaje = Number(this.cuenta.MxnBtc) + Number(this.cuenta.MxnEth) + Number(this.cuenta.MxnXrp) + Number(this.cuenta.MXN)
+      // this.cuenta.saldoTotal = totalPorcentaje;
+      //  console.log(this.MXN);
+      //  console.log(this.coins);
+      console.log('newsaldo', this.cuenta.saldoTotal );
+      var arr = [this.cuenta.MXN, this.cuenta.MxnBtc, this.cuenta.MxnEth, this.cuenta.MxnXrp];
+      console.log('arr %',arr[0], arr[1],arr[2],arr[3]);
+      var porcentages = arr.map(function(element) {
+        return (element = (element / totalPorcentaje) * 100);
+        // deposito inicial variable 2000000
+      });
+      console.log(porcentages);
+      this.cuenta.XRPpercentage = porcentages[3];
+       this.cuenta.ETHpercentage=porcentages[2];
+      this.cuenta.BTCpercentage = porcentages[1];
+      this.cuenta.MXNpercentage = porcentages[0];
+
+      this .movimientos.precio = this.menorXRP
+      this .movimientos.moneda = "XRP"
+      this .movimientos.tipo = "venta"
+
+
+      Axios
+      .patch(
+        "http://localhost:4000/cuenta/5da781e58bb9263858303277",
+        this.cuenta
+      )
+        .then(res => {
+          console.log("enviando cartera", this.cuenta);
+        })
+        .catch(error => console.log(error));
+            Axios
+           .post('http://localhost:4000/add/movimiento/5da781e58bb9263858303277',this.movimientos)
+ .then((res) => {
+      // console.log('cuentaMov',this.movimientos)
+      Axios.get("http://localhost:4000/cuenta/5da781e58bb9263858303277")
+      .then(response => {
+        // console.log("esta es responde de db", response.data);
+        this.cuenta.MXN = response.data.MXN;
+        this.cuenta.BTC = response.data.BTC;
+                this.movs = response.data.movimientos
+
+        // this.cuenta.BTCpercentage = response.data.BTCpercentage
+        // % necesarios?
+      })
+
+ })
+     },
   
 
 
